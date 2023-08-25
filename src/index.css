@@ -1,18 +1,22 @@
 :root {
   /* Colors */
+  --clr-primary-moderate-cyan: hsl(176, 50%, 47%);
+  --clr-primary-dark-cyan: hsl(176, 72%, 28%);
 
-  --clr-primary-white: hsl(0, 0%, 100%);
-  --clr-primary-black: hsl(0, 0%, 0%);
-  --clr-primary-dark-gray: hsl(0, 0%, 55%);
-  --clr-primary-very-dark-gray: hsl(0, 0%, 41%);
+  --clr-neutral-black: hsl(0, 0%, 0%);
+  --clr-neutral-dark-gray: hsl(0, 0%, 48%);
+  --clr-neutral-light-gray: hsl(0, 0%, 95%);
+  --clr-neutral-white: hsl(0, 0%, 100%);
 
   /* Font Family */
-  --font-family-primary: "Alata", sans-serif;
-  --font-family-secondary: "Josefin Sans", sans-serif;
+  --font-family-primary: "Commissioner", sans-serif;
+  --font-family-body: var(--font-family-primary);
+  --font-family-heading: var(--font-family-primary);
 
   /* Font Weight */
-  --font-weight-light: 300;
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 
   /* Font Size */
   --font-size-200: 0.75rem;
@@ -26,6 +30,27 @@
   --font-size-1000: 2.5rem;
   --font-size-1100: 2.75rem;
   --font-size-1200: 3rem;
+
+  /* Layout Font Size */
+  --font-size-body: var(--font-size-400);
+  --font-size-primary-heading: var(--font-size-800);
+  --font-size-secondary-heading: var(--font-size-600);
+  --font-size-nav: var(--font-size-400);
+  --font-size-button: var(--font-size-400);
+
+  /* Padding, margin, gap, etc. */
+  --size-100: 0.25rem;
+  --size-200: 0.5rem;
+  --size-300: 0.75rem;
+  --size-400: 1rem;
+  --size-500: 1.5rem;
+  --size-600: 2rem;
+  --size-700: 3rem;
+  --size-800: 4rem;
+  --size-900: 5rem;
+  --size-1000: 7.5rem;
+  --size-2000: 15rem;
+  --size-3000: 30rem;
 }
 
 /* Reset */
@@ -99,35 +124,116 @@ svg {
 /* General styling */
 
 body {
-  background-color: var(--clr-primary-white);
-  color: var(--clr-primary-black);
-  font-family: var(--font-family-primary);
+  background-color: var(--clr-neutral-white);
+  color: var(--clr-neutral-black);
+  font-family: var(--font-family-body);
   font-weight: var(--font-weight-regular);
-  font-size: var(--font-size-400);
+  font-size: var(--font-size-body);
 }
 
 .desktop {
   display: none;
 }
 
-/* main {
-  display: grid;
-  grid-template-rows: 1fr 7fr;
-  height: 100vh;
-  justify-items: center;
-  align-items: center;
-} */
-
-/* Removing ticks */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* Removing ticks  Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--size-400) 0;
+  background-image: url("./assets/images/image-hero-mobile.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: var(--size-2000);
+  padding: var(--size-600) var(--size-600);
+}
+
+.btn-menu {
+  background-color: transparent;
+  border: none;
+  z-index: 999;
+  width: var(--size-400);
+  height: var(--size-400);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+main {
+  background-color: var(--clr-neutral-light-gray);
+  display: flex;
+  justify-content: center;
+}
+
+.section {
+  background-color: var(--clr-neutral-white);
+  border-radius: var(--size-2 00);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-400);
+  padding: var(--size-400);
+}
+
+.project-section {
+  align-items: center;
+  position: relative;
+  padding: var(--size-800) var(--size-400);
+  text-align: center;
+  gap: var(--size-400);
+}
+
+.logo-mastercraft {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(300%, -50%);
+}
+
+.project-section h1 {
+  font-size: var(--font-size-primary-heading);
+  font-weight: var(--font-weight-bold);
+}
+
+p {
+  color: var(--clr-neutral-dark-gray);
+}
+
+.flex-row {
+  display: flex;
+  gap: var(--size-400);
+}
+
+.btn {
+  background-color: var(--clr-primary-moderate-cyan);
+  border: none;
+  border-radius: var(--size-600);
+  color: var(--clr-neutral-white);
+  font-weight: var(--font-weight-medium);
+  padding: var(--size-200) var(--size-600);
+  cursor: pointer;
+}
+
+.btn-bookmark {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */
