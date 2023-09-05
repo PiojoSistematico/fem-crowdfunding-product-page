@@ -12,7 +12,7 @@ const Menu = () => {
 
   return (
     <header className={isMenuOpen ? "overlay" : ""}>
-      <a>
+      <a href="#" className="header-logo">
         <img src={Logo} alt="Logo" />
       </a>
 
@@ -52,9 +52,11 @@ const Menu = () => {
           <li>
             <a href="">About</a>
           </li>
+          <hr />
           <li>
             <a href="">Discover</a>
           </li>
+          <hr />
           <li>
             <a href="">Get Started</a>
           </li>
