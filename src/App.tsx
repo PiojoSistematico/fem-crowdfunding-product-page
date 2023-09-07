@@ -1,11 +1,20 @@
 import bookmark from "./assets/images/icon-bookmark.svg";
 import Menu from "./components/Menu";
 import logoMastercraft from "./assets/images/logo-mastercraft.svg";
+import Modal from "./components/Modal";
+import { useState } from "react";
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  function handleModal(): void {
+    setIsModalOpen(!isModalOpen);
+  }
+
   return (
     <>
       <Menu></Menu>
+      <Modal isOpen={isModalOpen} handleModal={handleModal}></Modal>
       <main>
         <section className="main-section">
           <section className="project-section section">
@@ -15,7 +24,9 @@ function App() {
               strain.
             </p>
             <div className="flex-row">
-              <button className="btn">Back this project</button>
+              <button onClick={handleModal} className="btn">
+                Back this project
+              </button>
               <button className="btn-bookmark">
                 <img src={bookmark} alt="" />
               </button>
