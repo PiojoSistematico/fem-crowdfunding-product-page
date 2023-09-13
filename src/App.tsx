@@ -2,19 +2,67 @@ import bookmark from "./assets/images/icon-bookmark.svg";
 import Menu from "./components/Menu";
 import logoMastercraft from "./assets/images/logo-mastercraft.svg";
 import Modal from "./components/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+type dataProps = {
+  current: number;
+  goal: number;
+  backers: number;
+  daysLeft: number;
+};
+
+type optionsProps = {
+  reward: string;
+  pledge: number;
+  description: string;
+  left: number;
+};
+
+const dummy = Array.from(Array(2), () => ({
+  reward: "Bamboo Stand",
+  pledge: 25,
+  description:
+    "Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via email.",
+  left: 101,
+}));
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [data, setData] = useState<dataProps>({
+    current: 1,
+    goal: 2,
+    backers: 1,
+    daysLeft: 1,
+  });
+  const [options, setOptions] = useState<optionsProps[]>(dummy);
+
+  useEffect(() => {
+    fetch("data.json")
+      .then((res) => res.json())
+      .then((info) => setData(info));
+  }, []);
+
+  useEffect(() => {
+    fetch("options.json")
+      .then((res) => res.json())
+      .then((info) => setOptions(info));
+  }, []);
 
   function handleModal(): void {
     setIsModalOpen(!isModalOpen);
   }
 
+  console.log(data);
+  console.log(options);
+
   return (
     <>
       <Menu></Menu>
-      <Modal isOpen={isModalOpen} handleModal={handleModal}></Modal>
+      <Modal
+        isOpen={isModalOpen}
+        handleModal={handleModal}
+        options={options}
+      ></Modal>
       <main>
         <section className="main-section">
           <section className="project-section section">
@@ -39,21 +87,30 @@ function App() {
           </section>
           <section className="stats-section section">
             <div className="stats">
-              <span className="big-numbers">$89,914</span>
-              <span>of $100,000 backed</span>
+              <span className="big-numbers">
+                ${data.current.toLocaleString()}
+              </span>
+              <span>of ${data.goal.toLocaleString()} backed</span>
             </div>
             <hr className="mobile" />
             <div className="stats">
-              <span className="big-numbers">5,007</span>
+              <span className="big-numbers">
+                {data.backers.toLocaleString()}
+              </span>
               <span>total backers</span>
             </div>
             <hr className="mobile" />
             <div className="stats">
-              <span className="big-numbers">56</span>
+              <span className="big-numbers">
+                {data.daysLeft.toLocaleString()}
+              </span>
               <span>days left</span>
             </div>
             <div className="bar">
-              <div className="bar-filled"></div>
+              <div
+                className="bar-filled"
+                style={{ width: (data.current * 100) / data.goal + "%" }}
+              ></div>
             </div>
           </section>
 
