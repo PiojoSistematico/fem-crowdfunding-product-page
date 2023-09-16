@@ -12,14 +12,18 @@ type optionsProps = {
 
 type ModalProps = {
   isOpen: boolean;
-  handleModal: () => void;
+  handleModal: (index: number) => void;
   options: optionsProps[];
+  selection: number;
+  setSelection: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const Modal: React.FunctionComponent<ModalProps> = ({
   isOpen,
   handleModal,
   options,
+  selection,
+  setSelection,
 }) => {
   const [isSuccessful, setIsSuccessful] = useState(false);
 
@@ -51,7 +55,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
           <div className="flex-row-between">
             <h3>Back this project</h3>
 
-            <button className="btn-menu mobile" onClick={handleModal}>
+            <button className="btn-menu mobile" onClick={() => handleModal(-1)}>
               <img className="icon-close" src={iconClose} alt="Close Menu" />
             </button>
           </div>
@@ -61,8 +65,17 @@ const Modal: React.FunctionComponent<ModalProps> = ({
             in the world?
           </p>
 
-          {options.map((elem) => (
-            <ModalCard isSelected={false} info={elem}></ModalCard>
+          {options.map((elem, index) => (
+            <ModalCard
+              key={index}
+              index={index}
+              regular={false}
+              isSelected={false}
+              info={elem}
+              selection={selection}
+              setSelection={setSelection}
+              handleModal={handleModal}
+            ></ModalCard>
           ))}
         </section>
       )}

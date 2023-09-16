@@ -350,7 +350,7 @@ h2 {
 }
 
 .selected {
-  border: 1px solid var(--clr-primary-dark-cyan);
+  border: 2px solid var(--clr-primary-dark-cyan);
 }
 
 h3 {
@@ -393,7 +393,6 @@ h3 {
   width: 70%;
   background-color: var(--clr-neutral-white);
   border-radius: var(--size-200);
-  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   gap: var(--size-400);
@@ -452,17 +451,17 @@ input {
   border-radius: var(--size-600);
   padding: var(--size-200) var(--size-200);
   color: var(--clr-neutral-white);
+  cursor: pointer;
 }
 
-/* .card-out-of-stock h3 {
-  color: var(--clr-neutral-dark-gray);
+h4 {
   font-weight: var(--font-weight-bold);
 }
 
-.card-out-of-stock .pledge {
-  color: hsl(176, 50%, 67%);
-  font-weight: var(--font-weight-medium);
-} */
+h4:hover,
+h4:focus-visible {
+  color: var(--clr-primary-moderate-cyan);
+}
 
 /* https://codepen.io/sosuke/pen/Pjoqqp */
 /* .red-dot {

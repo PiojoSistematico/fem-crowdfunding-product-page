@@ -2,6 +2,7 @@ import bookmark from "./assets/images/icon-bookmark.svg";
 import Menu from "./components/Menu";
 import logoMastercraft from "./assets/images/logo-mastercraft.svg";
 import Modal from "./components/Modal";
+import ModalCard from "./components/ModalCard";
 import { useEffect, useState } from "react";
 
 type dataProps = {
@@ -9,22 +10,15 @@ type dataProps = {
   goal: number;
   backers: number;
   daysLeft: number;
+  options: Options[];
 };
 
-type optionsProps = {
+type Options = {
   reward: string;
   pledge: number;
   description: string;
   left: number;
 };
-
-const dummy = Array.from(Array(2), () => ({
-  reward: "Bamboo Stand",
-  pledge: 25,
-  description:
-    "Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via email.",
-  left: 101,
-}));
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,8 +27,13 @@ function App() {
     goal: 2,
     backers: 1,
     daysLeft: 1,
+    options: [
+      { reward: "a", pledge: 1, description: "b", left: 2 },
+      { reward: "a", pledge: 1, description: "b", left: 2 },
+    ],
   });
-  const [options, setOptions] = useState<optionsProps[]>(dummy);
+
+  const [selection, setSelection] = useState(-1);
 
   useEffect(() => {
     fetch("data.json")
@@ -42,18 +41,18 @@ function App() {
       .then((info) => setData(info));
   }, []);
 
-  useEffect(() => {
-    fetch("options.json")
-      .then((res) => res.json())
-      .then((info) => setOptions(info));
-  }, []);
-
-  function handleModal(): void {
+  function handleModal(index: number): void {
     setIsModalOpen(!isModalOpen);
+    setSelection(index);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   }
 
   console.log(data);
-  console.log(options);
+  console.log(selection);
 
   return (
     <>
@@ -61,7 +60,9 @@ function App() {
       <Modal
         isOpen={isModalOpen}
         handleModal={handleModal}
-        options={options}
+        options={data.options}
+        selection={selection}
+        setSelection={setSelection}
       ></Modal>
       <main>
         <section className="main-section">
@@ -72,7 +73,7 @@ function App() {
               strain.
             </p>
             <div className="flex-row">
-              <button onClick={handleModal} className="btn">
+              <button onClick={() => handleModal(-1)} className="btn">
                 Back this project
               </button>
               <button className="btn-bookmark">
@@ -126,48 +127,18 @@ function App() {
               space below your computer to allow notepads, pens, and USB sticks
               to be stored under the stand.
             </p>
-            <article className="card-regular">
-              <h3>Bamboo Stand</h3>
-              <span className="pledge">Pledge $25 or more</span>
-              <p>
-                You get an ergonomic stand made of natural bamboo. You've helped
-                us launch our promotional campaign, and you’ll be added to a
-                special Backer member list.
-              </p>
-              <div className="flex-row">
-                <span className="big-numbers">101</span>
-                <span>left</span>
-              </div>
-              <button className="btn">Select Reward</button>
-            </article>
-            <article className="card-regular">
-              <h3>Black Edition Stand</h3>
-              <span className="pledge">Pledge $75 or more</span>
-              <p>
-                You get a Black Special Edition computer stand and a personal
-                thank you. You’ll be added to our Backer member list. Shipping
-                is included.
-              </p>
-              <div className="flex-row">
-                <span className="big-numbers">64</span>
-                <span>left</span>
-              </div>
-              <button className="btn">Select Reward</button>
-            </article>
-            <article className="card-regular out-of-stock">
-              <h3>Mahogany Special Edition</h3>
-              <span className="pledge">Pledge $200 or more</span>
-              <p>
-                You get two Special Edition Mahogany stands, a Backer T-Shirt,
-                and a personal thank you. You’ll be added to our Backer member
-                list. Shipping is included.
-              </p>
-              <div className="flex-row">
-                <span className="big-numbers"> 0 </span>
-                <span>left</span>
-              </div>
-              <button className="btn">Out of Stock</button>
-            </article>
+            {data.options.map((elem, index) => (
+              <ModalCard
+                key={index}
+                index={index}
+                regular={true}
+                isSelected={false}
+                info={elem}
+                selection={selection}
+                setSelection={setSelection}
+                handleModal={handleModal}
+              ></ModalCard>
+            ))}
           </section>
         </section>
       </main>
