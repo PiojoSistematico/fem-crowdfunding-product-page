@@ -3,6 +3,21 @@ import iconCheck from "../assets/images/icon-check.svg";
 import { useState } from "react";
 import ModalCard from "./ModalCard";
 
+type dataProps = {
+  current: number;
+  goal: number;
+  backers: number;
+  daysLeft: number;
+  options: Options[];
+};
+
+type Options = {
+  reward: string;
+  pledge: number;
+  description: string;
+  left: number;
+};
+
 type optionsProps = {
   reward: string;
   pledge: number;
@@ -16,6 +31,8 @@ type ModalProps = {
   options: optionsProps[];
   selection: number;
   setSelection: React.Dispatch<React.SetStateAction<number>>;
+  setData: React.Dispatch<React.SetStateAction<dataProps>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const Modal: React.FunctionComponent<ModalProps> = ({
@@ -24,11 +41,15 @@ const Modal: React.FunctionComponent<ModalProps> = ({
   options,
   selection,
   setSelection,
+  setIsModalOpen,
+  setData,
 }) => {
   const [isSuccessful, setIsSuccessful] = useState(false);
 
   function handleClick(): void {
     setIsSuccessful(!isSuccessful);
+    setIsModalOpen(false);
+    setSelection(-1);
   }
 
   return (
@@ -38,7 +59,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
       }
     >
       {isSuccessful ? (
-        <section className="modal">
+        <section className="modal success">
           <picture>
             <img src={iconCheck} alt="" />
           </picture>
@@ -48,7 +69,9 @@ const Modal: React.FunctionComponent<ModalProps> = ({
             Monitor Riser worldwide. You will get an email once our campaign is
             completed.
           </p>
-          <button onClick={handleClick}>Got it!</button>
+          <button className="btn" onClick={handleClick}>
+            Got it!
+          </button>
         </section>
       ) : (
         <section className="modal">
@@ -75,6 +98,9 @@ const Modal: React.FunctionComponent<ModalProps> = ({
               selection={selection}
               setSelection={setSelection}
               handleModal={handleModal}
+              setData={setData}
+              setIsSuccessful={setIsSuccessful}
+              isModalOpen={isOpen}
             ></ModalCard>
           ))}
         </section>

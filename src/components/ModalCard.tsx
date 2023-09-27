@@ -1,5 +1,20 @@
 import React from "react";
 
+type dataProps = {
+  current: number;
+  goal: number;
+  backers: number;
+  daysLeft: number;
+  options: Options[];
+};
+
+type Options = {
+  reward: string;
+  pledge: number;
+  description: string;
+  left: number;
+};
+
 type ModalCardProps = {
   index: number;
   regular: boolean;
@@ -7,7 +22,11 @@ type ModalCardProps = {
   info: { reward: string; pledge: number; description: string; left: number };
   selection: number;
   setSelection: React.Dispatch<React.SetStateAction<number>>;
+  setData: React.Dispatch<React.SetStateAction<dataProps>>;
+  setIsSuccessful?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleModal: (index: number) => void;
+  isModalOpen: boolean;
 };
 
 const ModalCard: React.FunctionComponent<ModalCardProps> = ({
@@ -17,15 +36,43 @@ const ModalCard: React.FunctionComponent<ModalCardProps> = ({
   info,
   selection,
   setSelection,
+  setData,
+  setIsSuccessful,
+  setIsModalOpen,
   handleModal,
+  isModalOpen,
 }) => {
+  function handleSubmit(e): void {
+    e.preventDefault();
+    console.log(e.target[0].value, e.target[0].name);
+    setData((prev) => ({
+      ...prev,
+      current: Number(prev.current) + Number(e.target[0].value),
+      backers: Number(prev.backers) + 1,
+    }));
+    if (setIsSuccessful) setIsSuccessful(true);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <article
-      className={index == selection ? "card-regular  selected" : "card-regular"}
+      className={
+        index == selection && isModalOpen
+          ? "card-regular  selected"
+          : "card-regular"
+      }
     >
       <div onClick={() => setSelection(index)} className="flex-col">
         <div className="flex-row">
-          {!regular && <div className="circle"></div>}
+          {!regular && (
+            <div
+              className={index == selection ? "circle-selected" : "circle"}
+            ></div>
+          )}
           <div>
             <h4>{info.reward}</h4>
             <span className="pledge">Pledge ${info.pledge} or more</span>
@@ -43,18 +90,25 @@ const ModalCard: React.FunctionComponent<ModalCardProps> = ({
         )}
       </div>
 
-      {index == selection ? (
-        <div className="flex-col-center border-top">
+      {index == selection && isModalOpen ? (
+        <form onSubmit={handleSubmit} className="flex-col-center border-top">
           <p>Enter your pledge</p>
           <div className="flex-row">
             <div className="input-box flex-row-between">
               <span>$</span>
-              <input type="number" placeholder={`${info.pledge}`} />
+              <input
+                name={`${index}`}
+                type="number"
+                min={info.pledge}
+                placeholder={`${info.pledge}`}
+              />
             </div>
 
-            <button className="btn-pledge">Continue</button>
+            <button className="btn-pledge" type="submit">
+              Continue
+            </button>
           </div>
-        </div>
+        </form>
       ) : null}
     </article>
   );

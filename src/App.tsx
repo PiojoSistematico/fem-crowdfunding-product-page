@@ -63,6 +63,8 @@ function App() {
         options={data.options}
         selection={selection}
         setSelection={setSelection}
+        setData={setData}
+        setIsModalOpen={setIsModalOpen}
       ></Modal>
       <main>
         <section className="main-section">
@@ -137,6 +139,9 @@ function App() {
                 selection={selection}
                 setSelection={setSelection}
                 handleModal={handleModal}
+                setData={setData}
+                setIsModalOpen={setIsModalOpen}
+                isModalOpen={isModalOpen}
               ></ModalCard>
             ))}
           </section>

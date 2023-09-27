@@ -281,6 +281,13 @@ p {
   width: var(--size-1500);
 }
 
+.btn:hover,
+.btn:focus-visible,
+.btn-pledge:hover,
+.btn-pledge:focus-visible {
+  background-color: var(--clr-primary-dark-cyan);
+}
+
 .btn-bookmark {
   background-color: transparent;
   border: none;
@@ -350,7 +357,7 @@ h2 {
 }
 
 .selected {
-  border: 2px solid var(--clr-primary-dark-cyan);
+  border: 2px solid var(--clr-primary-moderate-cyan);
 }
 
 h3 {
@@ -399,6 +406,11 @@ h3 {
   padding: var(--size-400);
 }
 
+.success {
+  align-items: center;
+  text-align: center;
+}
+
 .border-top {
   border-top: 1px solid var(--clr-neutral-light-gray);
   padding-top: var(--size-400);
@@ -428,6 +440,13 @@ h3 {
   width: var(--size-400);
   height: var(--size-400);
   border-radius: var(--size-1000);
+}
+
+.circle-selected {
+  width: var(--size-400);
+  height: var(--size-400);
+  border-radius: var(--size-1000);
+  border: 2px solid var(--clr-primary-moderate-cyan);
 }
 
 .input-box {
