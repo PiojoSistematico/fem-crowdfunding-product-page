@@ -34,6 +34,7 @@ function App() {
   });
 
   const [selection, setSelection] = useState(-1);
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
     fetch("data.json")
@@ -51,8 +52,11 @@ function App() {
     });
   }
 
-  console.log(data);
-  console.log(selection);
+  /*   function handleBookmark ():void{
+    setIsBookmarked(!isBookmarked)
+  } */
+
+  console.log(isBookmarked);
 
   return (
     <>
@@ -78,9 +82,25 @@ function App() {
               <button onClick={() => handleModal(-1)} className="btn">
                 Back this project
               </button>
-              <button className="btn-bookmark">
-                <img src={bookmark} alt="" />
-              </button>
+              <div
+                className="flex-row bookmark-div"
+                onClick={() => setIsBookmarked(!isBookmarked)}
+              >
+                <button
+                  className={
+                    isBookmarked ? "btn-bookmark-selected" : "btn-bookmark"
+                  }
+                >
+                  <img src={bookmark} alt="" />
+                </button>
+                <span
+                  className={
+                    isBookmarked ? "bookmark desktop" : "bookmarked desktop"
+                  }
+                >
+                  {isBookmarked ? "Bookmark" : "Bookmarked"}
+                </span>
+              </div>
             </div>
             <img
               src={logoMastercraft}
@@ -89,26 +109,29 @@ function App() {
             />
           </section>
           <section className="stats-section section">
-            <div className="stats">
-              <span className="big-numbers">
-                ${data.current.toLocaleString()}
-              </span>
-              <span>of ${data.goal.toLocaleString()} backed</span>
+            <div className="stats-div">
+              <div className="stats">
+                <span className="big-numbers">
+                  ${data.current.toLocaleString()}
+                </span>
+                <span>of ${data.goal.toLocaleString()} backed</span>
+              </div>
+              <hr className="mobile" />
+              <div className="stats">
+                <span className="big-numbers">
+                  {data.backers.toLocaleString()}
+                </span>
+                <span>total backers</span>
+              </div>
+              <hr className="mobile" />
+              <div className="stats">
+                <span className="big-numbers">
+                  {data.daysLeft.toLocaleString()}
+                </span>
+                <span>days left</span>
+              </div>
             </div>
-            <hr className="mobile" />
-            <div className="stats">
-              <span className="big-numbers">
-                {data.backers.toLocaleString()}
-              </span>
-              <span>total backers</span>
-            </div>
-            <hr className="mobile" />
-            <div className="stats">
-              <span className="big-numbers">
-                {data.daysLeft.toLocaleString()}
-              </span>
-              <span>days left</span>
-            </div>
+
             <div className="bar">
               <div
                 className="bar-filled"

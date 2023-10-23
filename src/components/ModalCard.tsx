@@ -18,13 +18,11 @@ type Options = {
 type ModalCardProps = {
   index: number;
   regular: boolean;
-  isSelected: boolean;
   info: { reward: string; pledge: number; description: string; left: number };
   selection: number;
   setSelection: React.Dispatch<React.SetStateAction<number>>;
   setData: React.Dispatch<React.SetStateAction<dataProps>>;
   setIsSuccessful?: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleModal: (index: number) => void;
   isModalOpen: boolean;
 };
@@ -32,24 +30,35 @@ type ModalCardProps = {
 const ModalCard: React.FunctionComponent<ModalCardProps> = ({
   index,
   regular,
-  isSelected,
   info,
   selection,
   setSelection,
   setData,
   setIsSuccessful,
-  setIsModalOpen,
   handleModal,
   isModalOpen,
 }) => {
-  function handleSubmit(e): void {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
     e.preventDefault();
-    console.log(e.target[0].value, e.target[0].name);
-    setData((prev) => ({
-      ...prev,
-      current: Number(prev.current) + Number(e.target[0].value),
-      backers: Number(prev.backers) + 1,
-    }));
+
+    const form = e.currentTarget;
+    const inputElement = form.elements[0] as HTMLInputElement;
+    const pledgeAmount = inputElement.value;
+    const index = Number(inputElement.getAttribute("name"));
+
+    setData((prev) => {
+      let updatedOptions = [...prev.options];
+      updatedOptions[index] = {
+        ...updatedOptions[index],
+        left: Number(prev.options[index].left) - 1,
+      };
+      return {
+        ...prev,
+        current: Number(prev.current) + Number(pledgeAmount),
+        backers: Number(prev.backers) + 1,
+        options: updatedOptions,
+      };
+    });
     if (setIsSuccessful) setIsSuccessful(true);
     window.scrollTo({
       top: 0,
@@ -62,32 +71,45 @@ const ModalCard: React.FunctionComponent<ModalCardProps> = ({
     <article
       className={
         index == selection && isModalOpen
-          ? "card-regular  selected"
+          ? "card-regular selected"
+          : info.left == 0
+          ? "card-regular out-of-stock"
           : "card-regular"
       }
     >
       <div onClick={() => setSelection(index)} className="flex-col">
         <div className="flex-row">
           {!regular && (
-            <div
-              className={index == selection ? "circle-selected" : "circle"}
-            ></div>
+            <div className="circle">
+              <div
+                className={index == selection ? "circle-selected" : "no-show"}
+              ></div>
+            </div>
           )}
-          <div>
+          <div className="title">
             <h4>{info.reward}</h4>
             <span className="pledge">Pledge ${info.pledge} or more</span>
           </div>
         </div>
         <p>{info.description}</p>
-        <div className="flex-row">
-          <span className="big-numbers"> {info.left} </span>
-          <span>left</span>
+        <div className="reward-div">
+          {info.left >= 0 && (
+            <div className="flex-row absolute">
+              <span className="big-numbers"> {info.left} </span>
+              <span>left</span>
+            </div>
+          )}
+
+          {regular && (
+            <button
+              onClick={() => handleModal(index)}
+              className="btn-pledge"
+              disabled={info.left == 0}
+            >
+              Select Reward
+            </button>
+          )}
         </div>
-        {regular && (
-          <button onClick={() => handleModal(index)} className="btn-pledge">
-            Select Reward
-          </button>
-        )}
       </div>
 
       {index == selection && isModalOpen ? (

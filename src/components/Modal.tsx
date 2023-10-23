@@ -78,7 +78,7 @@ const Modal: React.FunctionComponent<ModalProps> = ({
           <div className="flex-row-between">
             <h3>Back this project</h3>
 
-            <button className="btn-menu mobile" onClick={() => handleModal(-1)}>
+            <button className="btn-menu" onClick={() => handleModal(-1)}>
               <img className="icon-close" src={iconClose} alt="Close Menu" />
             </button>
           </div>
@@ -93,12 +93,11 @@ const Modal: React.FunctionComponent<ModalProps> = ({
               key={index}
               index={index}
               regular={false}
-              isSelected={false}
               info={elem}
               selection={selection}
               setSelection={setSelection}
-              handleModal={handleModal}
               setData={setData}
+              handleModal={handleModal}
               setIsSuccessful={setIsSuccessful}
               isModalOpen={isOpen}
             ></ModalCard>
