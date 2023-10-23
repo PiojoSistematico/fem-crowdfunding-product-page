@@ -157,13 +157,11 @@ function App() {
                 key={index}
                 index={index}
                 regular={true}
-                isSelected={false}
                 info={elem}
                 selection={selection}
                 setSelection={setSelection}
                 handleModal={handleModal}
                 setData={setData}
-                setIsModalOpen={setIsModalOpen}
                 isModalOpen={isModalOpen}
               ></ModalCard>
             ))}
